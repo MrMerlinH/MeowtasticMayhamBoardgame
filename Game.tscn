@@ -1,0 +1,243 @@
+[gd_scene load_steps=11 format=3 uid="uid://dwsv0ynyvwl1r"]
+
+[ext_resource type="Script" uid="uid://dm67v076s5gue" path="res://NewsTextAnimation.gd" id="1_wbfu4"]
+[ext_resource type="Script" uid="uid://d13fxi0mjmhjp" path="res://GameManager.gd" id="1_xkndl"]
+[ext_resource type="Shader" uid="uid://bheh2ta1lsdkj" path="res://Game.gdshader" id="3_u44n3"]
+[ext_resource type="Theme" uid="uid://cm1jusk5ex165" path="res://button theme.tres" id="4_sb48q"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sb48q"]
+shader = ExtResource("3_u44n3")
+shader_parameter/polar_coordinates = false
+shader_parameter/polar_center = Vector2(0.5, 0.5)
+shader_parameter/polar_zoom = 1.0
+shader_parameter/polar_repeat = 1.0
+shader_parameter/spin_rotation = 0.0
+shader_parameter/spin_speed = 3.0
+shader_parameter/offset = Vector2(0, 0)
+shader_parameter/colour_1 = Color(0.828638, 0.494881, 0, 1)
+shader_parameter/colour_2 = Color(0, 0, 0, 1)
+shader_parameter/colour_3 = Color(5.10186e-06, 0, 0.886731, 1)
+shader_parameter/contrast = 2.0
+shader_parameter/spin_amount = 0.36
+shader_parameter/pixel_filter = 1000.0
+
+[sub_resource type="Animation" id="Animation_xkndl"]
+resource_name = "NewsTextScroll"
+length = 20.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Node2D/ColorRect/NEWS:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 20),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(2010, 38), Vector2(-5000, 38)]
+}
+
+[sub_resource type="Animation" id="Animation_wbfu4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Node2D/ColorRect/NEWS:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(2010, 38)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Node2D/ColorRect:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-56, 1100)]
+}
+
+[sub_resource type="Animation" id="Animation_sb48q"]
+resource_name = "moveDown"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Node2D/ColorRect:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-56, 936), Vector2(-56, 1100)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Node2D/AnimationPlayer")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"reset_section"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_u44n3"]
+resource_name = "moveUp"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Node2D/ColorRect:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-56, 1100), Vector2(-56, 936)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Node2D/AnimationPlayer")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [&"NewsTextScroll", -1, 1.0, false],
+"method": &"play"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Node2D/ColorRect/NEWS:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(2010, 38)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_u44n3"]
+_data = {
+&"NewsTextScroll": SubResource("Animation_xkndl"),
+&"RESET": SubResource("Animation_wbfu4"),
+&"moveDown": SubResource("Animation_sb48q"),
+&"moveUp": SubResource("Animation_u44n3")
+}
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_xkndl")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_sb48q")
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="CatNeeds" type="RichTextLabel" parent="."]
+offset_left = 254.0
+offset_top = 606.0
+offset_right = 1423.0
+offset_bottom = 739.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 50
+theme_override_font_sizes/normal_font_size = 50
+bbcode_enabled = true
+text = "Press \"NEW ORDER\" for a new Cat Order"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LOGO" type="RichTextLabel" parent="."]
+offset_left = 470.0
+offset_top = 6.0
+offset_right = 1795.0
+offset_bottom = 299.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 80
+theme_override_font_sizes/normal_font_size = 100
+bbcode_enabled = true
+text = "[tornado radius=10.0 freq=0.5 connected=1]MEOWTASTIC MAYHEM[/tornado]"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D"]
+root_node = NodePath("../..")
+libraries = {
+&"": SubResource("AnimationLibrary_u44n3")
+}
+
+[node name="ColorRect" type="ColorRect" parent="Node2D"]
+offset_left = -56.0
+offset_top = 1100.0
+offset_right = 1997.0
+offset_bottom = 1267.0
+color = Color(1, 0, 0, 1)
+script = ExtResource("1_wbfu4")
+
+[node name="NEWS" type="RichTextLabel" parent="Node2D/ColorRect"]
+layout_mode = 0
+offset_left = 2010.0
+offset_top = 38.0
+offset_right = 7107.0
+offset_bottom = 136.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 40
+theme_override_font_sizes/normal_font_size = 50
+text = "BREAKING NEWS: Mad Cow Disease has broken out globally! All cows in storage have gone rogue and started a Union and have escaped from storage! The ones still on the fields were immune to the propaganda."
+
+[node name="Button" type="Button" parent="."]
+offset_left = 1480.0
+offset_top = 698.0
+offset_right = 1900.0
+offset_bottom = 878.0
+theme = ExtResource("4_sb48q")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 50
+theme_override_font_sizes/font_size = 50
+text = "NEXT EVENT"
+
+[node name="Button2" type="Button" parent="."]
+offset_left = 1480.0
+offset_top = 500.0
+offset_right = 1900.0
+offset_bottom = 680.0
+theme = ExtResource("4_sb48q")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 50
+theme_override_font_sizes/font_size = 50
+text = "NEXT  ORDER"
+
+[node name="Button3" type="Button" parent="."]
+offset_left = 27.0
+offset_top = 26.0
+offset_right = 419.0
+offset_bottom = 240.0
+theme = ExtResource("4_sb48q")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 50
+theme_override_font_sizes/font_size = 50
+text = "RESET GAME"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="Button3" to="." method="_on_button_3_pressed"]
